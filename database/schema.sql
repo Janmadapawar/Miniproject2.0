@@ -1,0 +1,8 @@
+-- SQL schema placeholder
+-- CREATE TABLE violations (
+--   id INT PRIMARY KEY AUTO_INCREMENT,
+--   vehicle_no VARCHAR(20),
+--   violation_type VARCHAR(50),
+--   timestamp DATETIME,
+--   image_path VARCHAR(255)
+-- );
