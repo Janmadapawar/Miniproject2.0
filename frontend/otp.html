@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Smart AI Security & Traffic Violation Monitoring</title>
+  <title>OTP Verification | Smart AI Security & Traffic Violation Monitoring</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
@@ -16,29 +16,29 @@
       background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-    .login-card {
+    .otp-card {
       background: #ffffff;
       padding: 2.5rem;
       border-radius: 16px;
       box-shadow: 0 8px 25px rgba(0,0,0,0.25);
       width: 100%;
-      max-width: 420px;
+      max-width: 400px;
       transition: transform 0.2s ease-in-out;
     }
-    .login-card:hover {
+    .otp-card:hover {
       transform: translateY(-5px);
     }
-    .login-card h2 {
+    .otp-card h2 {
       font-weight: 700;
       color: #1e293b;
     }
-    .form-label {
-      font-weight: 500;
-      color: #334155;
-    }
     .form-control {
       border-radius: 8px;
-      padding: 0.65rem;
+      padding: 0.7rem;
+      text-align: center;
+      font-size: 1.2rem;
+      letter-spacing: 5px;
+      font-weight: bold;
     }
     .form-control:focus {
       border-color: #2563eb;
@@ -59,21 +59,15 @@
   </style>
 </head>
 <body>
-  <div class="login-card">
-    <h2 class="text-center mb-4">Smart AI Security & Traffic Violation Monitoring</h2>
+  <div class="otp-card">
+    <h2 class="text-center mb-4">OTP Verification</h2>
+    <p class="text-center mb-3 text-muted">Enter the 6-digit code sent to your email</p>
     <form>
-      <div class="mb-3">
-        <label class="form-label">Email address</label>
-        <input type="email" class="form-control" placeholder="Enter email">
+      <div class="mb-4">
+        <input type="text" maxlength="6" class="form-control text-center" placeholder="••••••">
       </div>
-      <div class="mb-3">
-        <label class="form-label">Password</label>
-        <input type="password" class="form-control" placeholder="Enter password">
-      </div>
-      <button type="submit" class="btn btn-primary w-100">Login</button>
+      <button type="submit" class="btn btn-primary w-100">Verify OTP</button>
     </form>
   </div>
 </body>
 </html>
-
-
