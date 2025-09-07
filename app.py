@@ -1,49 +1,68 @@
-from flask import Flask, request, jsonify, render_template
-import os
-import smtplib
+from flask import Flask, request, jsonify
+import os, smtplib, random
 from email.message import EmailMessage
-import random
+from dotenv import load_dotenv
+from flask_cors import CORS
+
+# Load environment variables
+load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = os.environ.get("FLASK_SECRET_KEY", "super-secret")
+CORS(app, resources={r"/*": {"origins": "*"}})
 
-# Load .env credentials
-SMTP_HOST = os.environ.get("SMTP_HOST")
-SMTP_PORT = int(os.environ.get("SMTP_PORT", 587))
-MAIL_USER = os.environ.get("MAIL_USER")
-MAIL_PASS = os.environ.get("MAIL_PASS")
-MAIL_FROM = os.environ.get("MAIL_FROM")
+# SMTP config from .env
+SMTP_HOST = os.getenv("SMTP_HOST")
+SMTP_PORT = int(os.getenv("SMTP_PORT", 587))
+MAIL_USER = os.getenv("MAIL_USER")
+MAIL_PASS = os.getenv("MAIL_PASS")
+MAIL_FROM = os.getenv("MAIL_FROM")
 
-# OTP storage (for testing)
+# Simple memory-based OTP store
 otp_store = {}
 
-# Function to send OTP email
 def send_otp(to_email, otp_code):
     msg = EmailMessage()
-    msg["Subject"] = "Your OTP Code"
+    msg["Subject"] = "Your OTP Code - Smart AI Security"
     msg["From"] = MAIL_FROM
     msg["To"] = to_email
-    msg.set_content(f"Your OTP is: {otp_code}")
+    msg.set_content(f"Your OTP is: {otp_code}. It expires in 5 minutes.")
 
     with smtplib.SMTP(SMTP_HOST, SMTP_PORT) as server:
         server.starttls()
         server.login(MAIL_USER, MAIL_PASS)
         server.send_message(msg)
 
-# ✅ Route to serve frontend
-@app.route("/")
-def index():
-    return render_template("otp.html")
-
-# ✅ Route to send OTP
 @app.route("/send-otp", methods=["POST"])
 def send_otp_route():
     data = request.get_json()
     email = data.get("email")
-    otp = str(random.randint(100000, 999999))  # Random 6-digit OTP
-    otp_store[email] = otp  # Store OTP for testing
-    send_otp(email, otp)
-    return jsonify({"status": "success", "otp": otp})
+    if not email:
+        return jsonify({"ok": False, "error": "Email required"}), 400
+
+    otp = str(random.randint(100000, 999999))
+    otp_store[email] = otp
+    try:
+        send_otp(email, otp)
+        return jsonify({"ok": True, "message": "OTP sent"})
+    except Exception as e:
+        return jsonify({"ok": False, "error": str(e)}), 500
+
+@app.route("/verify-otp", methods=["POST"])
+def verify_otp_route():
+    data = request.get_json()
+    email = data.get("email")
+    otp = data.get("otp")
+    if not email or not otp:
+        return jsonify({"ok": False, "error": "Missing fields"}), 400
+
+    if email not in otp_store:
+        return jsonify({"ok": False, "error": "No OTP found"}), 404
+
+    if otp_store[email] != otp:
+        return jsonify({"ok": False, "error": "Invalid OTP"}), 400
+
+    del otp_store[email]  # success → remove OTP
+    return jsonify({"ok": True, "message": "OTP verified!"})
 
 if __name__ == "__main__":
     app.run(debug=True)
