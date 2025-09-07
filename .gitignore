@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Ignore dataset folders
 detection/helmet-detection-1/
 detection/datasets/
@@ -5,3 +6,17 @@ detection/datasets/
 # Ignore Python cache
 __pycache__/
 *.pyc
+=======
+# Mac system files
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+
+# Environment files
+.env
+
+# Virtual environment (agar use kar rahe ho)
+venv/
+>>>>>>> ff8922e (Added Flask backend with OTP email verification)
