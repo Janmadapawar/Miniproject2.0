@@ -1,22 +1,41 @@
-<<<<<<< HEAD
-# Ignore dataset folders
+# -------------------------
+# System / Editor files
+# -------------------------
+.DS_Store
+
+# -------------------------
+# Python cache
+# -------------------------
+__pycache__/
+*.pyc
+
+# -------------------------
+# Environment / Virtual env
+# -------------------------
+.env
+venv/
+env/
+
+# -------------------------
+# Datasets (don’t push images/videos)
+# -------------------------
 detection/helmet-detection-1/
 detection/datasets/
 
-# Ignore Python cache
-__pycache__/
-*.pyc
-=======
-# Mac system files
-.DS_Store
+# -------------------------
+# YOLO run outputs (training, webcam frames, etc.)
+# -------------------------
+runs/
 
-# Python
-__pycache__/
-*.pyc
+# -------------------------
+# Model weights
+# -------------------------
+*.pt
+!detection/weights/best.pt
 
-# Environment files
-.env
+# -------------------------
+# Logs
+# -------------------------
+*.log
 
-# Virtual environment (agar use kar rahe ho)
-venv/
 >>>>>>> ff8922e (Added Flask backend with OTP email verification)
