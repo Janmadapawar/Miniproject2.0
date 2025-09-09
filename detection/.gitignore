@@ -1,7 +1,0 @@
-# Ignore dataset folder
-detection/helmet-detection-1/
-detection/datasets/
-
-# Ignore Python cache files
-__pycache__/
-*.pyc
