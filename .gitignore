@@ -15,6 +15,7 @@ __pycache__/
 .env
 venv/
 env/
+venv312/
 
 # -------------------------
 # Datasets (don’t push images/videos)

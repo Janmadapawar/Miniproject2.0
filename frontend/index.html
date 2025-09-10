@@ -13,39 +13,36 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
+      background: linear-gradient(135deg, #0d9488, #14b8a6, #5eead4);
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-    .login-card {
+    .card-box {
       background: #ffffff;
-      padding: 2.5rem;
+      padding: 2rem;
       border-radius: 16px;
       box-shadow: 0 8px 25px rgba(0,0,0,0.25);
       width: 100%;
       max-width: 420px;
-      transition: transform 0.2s ease-in-out;
     }
-    .login-card:hover {
-      transform: translateY(-5px);
-    }
-    .login-card h2 {
+    h3 {
+      color: #0d9488;
       font-weight: 700;
-      color: #1e293b;
     }
     .form-label {
       font-weight: 500;
-      color: #334155;
+      color: #0f172a;
     }
     .form-control {
       border-radius: 8px;
       padding: 0.65rem;
+      border: 1px solid #94a3b8;
     }
     .form-control:focus {
-      border-color: #2563eb;
-      box-shadow: 0 0 0 0.2rem rgba(37,99,235,0.25);
+      border-color: #0d9488;
+      box-shadow: 0 0 0 0.2rem rgba(13,148,136,0.25);
     }
     .btn-primary {
-      background: linear-gradient(90deg, #2563eb, #1d4ed8);
+      background: linear-gradient(90deg, #0d9488, #14b8a6);
       border: none;
       border-radius: 8px;
       padding: 0.7rem;
@@ -54,26 +51,106 @@
       transition: background 0.3s ease;
     }
     .btn-primary:hover {
-      background: linear-gradient(90deg, #1d4ed8, #1e40af);
+      background: linear-gradient(90deg, #0f766e, #0d9488);
+    }
+    .toggle-link {
+      text-align: center;
+      margin-top: 12px;
+      cursor: pointer;
+      color: #0d9488;
+      font-weight: 500;
+    }
+    .otp-box {
+      display: none;
     }
   </style>
 </head>
 <body>
-  <div class="login-card">
-    <h2 class="text-center mb-4">Smart AI Security & Traffic Violation Monitoring</h2>
-    <form>
+  <div class="card-box">
+    <h3 class="text-center mb-3">Smart AI Security & Traffic Violation Monitoring</h3>
+
+    <!-- LOGIN FORM -->
+    <form id="loginForm">
       <div class="mb-3">
         <label class="form-label">Email address</label>
-        <input type="email" class="form-control" placeholder="Enter email">
+        <input type="email" id="loginEmail" class="form-control" placeholder="Enter email" required>
       </div>
       <div class="mb-3">
         <label class="form-label">Password</label>
-        <input type="password" class="form-control" placeholder="Enter password">
+        <input type="password" id="loginPassword" class="form-control" placeholder="Enter password" required>
       </div>
       <button type="submit" class="btn btn-primary w-100">Login</button>
+      <div class="toggle-link" onclick="showRegister()">Don’t have an account? Register</div>
+    </form>
+
+    <!-- REGISTER FORM -->
+    <form id="registerForm" style="display:none;">
+      <div class="mb-3">
+        <label class="form-label">Full Name</label>
+        <input type="text" id="regName" class="form-control" placeholder="Enter full name" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Unique ID</label>
+        <input type="text" id="regId" class="form-control" placeholder="Enter unique ID" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Email address</label>
+        <input type="email" id="regEmail" class="form-control" placeholder="Enter email" required>
+      </div>
+      <div class="mb-3 otp-box" id="otpBox">
+        <label class="form-label">Enter OTP</label>
+        <input type="text" id="regOtp" class="form-control" placeholder="Enter OTP">
+      </div>
+      <button type="button" id="sendOtpBtn" class="btn btn-primary w-100">Send OTP</button>
+      <button type="submit" id="registerBtn" class="btn btn-primary w-100 mt-2" style="display:none;">Register</button>
+      <div class="toggle-link" onclick="showLogin()">Already have an account? Login</div>
     </form>
   </div>
+
+  <script>
+    let generatedOtp = "";
+
+    // Toggle functions
+    function showRegister() {
+      document.getElementById("loginForm").style.display = "none";
+      document.getElementById("registerForm").style.display = "block";
+    }
+    function showLogin() {
+      document.getElementById("registerForm").style.display = "none";
+      document.getElementById("loginForm").style.display = "block";
+    }
+
+    // Simulate OTP Sending
+    document.getElementById("sendOtpBtn").addEventListener("click", function() {
+      const email = document.getElementById("regEmail").value;
+      if (email === "") {
+        alert("Please enter an email first!");
+        return;
+      }
+      generatedOtp = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit OTP
+      alert("OTP sent to " + email + " (simulated): " + generatedOtp); 
+      document.getElementById("otpBox").style.display = "block";
+      document.getElementById("sendOtpBtn").style.display = "none";
+      document.getElementById("registerBtn").style.display = "block";
+    });
+
+    // Register Form Submit
+    document.getElementById("registerForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const otpInput = document.getElementById("regOtp").value;
+      if (otpInput === generatedOtp) {
+        alert("Registration Successful!");
+        showLogin();
+      } else {
+        alert("Invalid OTP. Try again!");
+      }
+    });
+
+    // Login Form Submit
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      alert("Login Successful (simulation).");
+    });
+  </script>
 </body>
 </html>
-
-
